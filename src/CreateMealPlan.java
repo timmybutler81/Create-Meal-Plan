@@ -16,6 +16,7 @@ public class CreateMealPlan {
     public static int[] selectedMeals;
     public static Scanner scanner = new Scanner(System.in);
 
+    //Display meal options to user based on hard coded meal arrays
     public static void getMealsByType(String mealType) {
         if (MEAL_BREAKFAST.equals(mealType)) {
             for (int i = 0; i < breakfastOptions.length; i++) {
@@ -32,10 +33,12 @@ public class CreateMealPlan {
         }
     }
 
+    //Storing meals
     public static void setMealsByDay(int mealIndex, int mealNumber) {
         selectedMeals[mealIndex] = mealNumber;
     }
 
+    //Iteration over stored meals
     public static void displayMealSelections(int numOfDays) {
         int count = 0;
         for (int i = 0; i <= numOfDays; i++) {
@@ -55,6 +58,7 @@ public class CreateMealPlan {
         }
     }
 
+    //checking number of days is a number
     public static int getNumberOfDays() {
         boolean isDaysValid = false;
         while (!isDaysValid) {
@@ -69,49 +73,56 @@ public class CreateMealPlan {
         return scanner.nextInt();
     }
 
-    public static int  getMealNumber () {
-        boolean isMealValid = false;
-        while (!isMealValid) {
-            if (scanner.hasNextInt()) {
-                isMealValid = true;
-            }else {
-                System.out.println("You did not enter a valid number.  Please re-enter a number.");
-                scanner.next();
-            }
+    //checking range of numbers falls into meal options
+    public static boolean isMealOptionValid (int mealNumber) {
+        if (mealNumber <=0 || mealNumber >6) {
+            System.out.println("Enter a number between 1 and 6");
+            return false;
         }
-        return scanner.nextInt();
+        return true;
     }
 
     public static void main(String[] args) {
-        System.out.println("Welcome to the meal planner!");
+        System.out.println("WELCOME to the meal PLANNER!");
         int mealPlanDays = getNumberOfDays();
         selectedMeals = new int[mealPlanDays * 3];
 
-        int counterIndex = 0;
+        int mealSelectTemp;
+        int counterIndex = 0; //Counter to know where to store values in selectedMeals array
+        //iteration over number of days
         for (int i = 0; i <= mealPlanDays - 1; i++) {
-            System.out.println("Day " + (i + 1) + " Breakfast Options:");
-            getMealsByType(MEAL_BREAKFAST);
-            System.out.println("");
-            System.out.println("Enter the meal number you want for Breakfast:");
-            int mealSelectTemp = getMealNumber();
-            setMealsByDay(counterIndex, mealSelectTemp - 1);
-            counterIndex++;
+            //iteration over number of meals
+            for (int j = 0; j < 3; j++) {
+                String mealType = "";
+                switch (j) {
+                    case 0:
+                        mealType = MEAL_BREAKFAST;
+                        break;
+                    case 1:
+                        mealType = MEAL_LUNCH;
+                        break;
+                    case 2:
+                        mealType = MEAL_DINNER;
+                        break;
+                }
 
-            System.out.println("Day " + (i + 1) + " Lunch Options:");
-            getMealsByType(MEAL_LUNCH);
-            System.out.println("");
-            System.out.println("Enter the meal number you want for Lunch:");
-            mealSelectTemp = getMealNumber();
-            setMealsByDay(counterIndex, mealSelectTemp - 1);
-            counterIndex++;
+                System.out.println("Day " + (i + 1) + " " + mealType + " Options:");
+                getMealsByType(mealType);
 
-            System.out.println("Day " + (i + 1) + " Dinner Options:");
-            getMealsByType(MEAL_DINNER);
-            System.out.println("");
-            System.out.println("Enter the meal number you want for Dinner:");
-            mealSelectTemp = getMealNumber();
-            setMealsByDay(counterIndex, mealSelectTemp - 1);
-            counterIndex++;
+                System.out.println("");
+                //error handling for numbers and between correct options
+                do {
+                    System.out.println("Enter the meal number you want for " + mealType + ":");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("Please enter a valid number.");
+                        scanner.next();
+                    }
+                    mealSelectTemp = scanner.nextInt();
+                } while (!isMealOptionValid(mealSelectTemp));
+                //storing meals
+                setMealsByDay(counterIndex, mealSelectTemp - 1);
+                counterIndex++;
+            }
         }
 
         System.out.println("Here is your Meal Plan:");
