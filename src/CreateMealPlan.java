@@ -11,7 +11,12 @@ public class CreateMealPlan {
             "Burrito Bowls","Turkey Quinoa Salad","BLT Sandwich"};
     public static String[] dinnerOptions = new String[] {"Broccoli Chicken Alfredo","Baked Salmon and Rice","Chicken Stir Fry",
             "Beef Stew","Pork Roast with Potatoes and Carrots","Enchiladas"};
+    public static final String MEAL_BREAKFAST = "Breakfast";
+    public static final String MEAL_LUNCH = "Lunch";
+    public static final String MEAL_DINNER = "Dinner";
     public static int[] selectedMeals = new int[26];
+
+
     public static Scanner scanner = new Scanner(System.in);
 
     public static void initializeArrayMeals() {
@@ -21,17 +26,17 @@ public class CreateMealPlan {
     }
 
     public static void getMealsByType(String mealType) {
-        if (mealType.equals("Breakfast")) {
+        if (mealType.equals(MEAL_BREAKFAST)) {
             for (int i = 0; i < breakfastOptions.length; i++) {
                 System.out.println((i+1) + ". " +breakfastOptions[i]);
             }
         }
-        if (mealType.equals("Lunch")) {
+        else if (mealType.equals(MEAL_LUNCH)) {
             for (int i = 0; i < lunchOptions.length; i++) {
                 System.out.println((i+1) + ". " +lunchOptions[i]);
             }
         }
-        if (mealType.equals("Dinner")) {
+        else if (mealType.equals(MEAL_DINNER)) {
             for (int i = 0; i < dinnerOptions.length; i++) {
                 System.out.println((i+1) + ". " +dinnerOptions[i]);
             }
@@ -72,7 +77,7 @@ public class CreateMealPlan {
         int counterIndex = 0;
         for (int i = 0; i<=mealPlanDays-1; i++) {
             System.out.println("Day " + (i+1) + " Breakfast Options:");
-            getMealsByType("Breakfast");
+            getMealsByType(MEAL_BREAKFAST);
             System.out.println("");
             System.out.println("Enter the meal number you want for Breakfast:");
             int mealSelectTemp = scanner.nextInt();
@@ -80,7 +85,7 @@ public class CreateMealPlan {
             counterIndex++;
 
             System.out.println("Day " + (i+1) + " Lunch Options:");
-            getMealsByType("Lunch");
+            getMealsByType(MEAL_LUNCH);
             System.out.println("");
             System.out.println("Enter the meal number you want for Lunch:");
             mealSelectTemp = scanner.nextInt();
@@ -88,7 +93,7 @@ public class CreateMealPlan {
             counterIndex++;
 
             System.out.println("Day " + (i+1) + " Dinner Options:");
-            getMealsByType("Dinner");
+            getMealsByType(MEAL_DINNER);
             System.out.println("");
             System.out.println("Enter the meal number you want for Dinner:");
             mealSelectTemp = scanner.nextInt();
